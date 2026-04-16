@@ -357,6 +357,28 @@
     font-size: 16px; font-weight: 600; color: #fff;
   }
 
+  /* ── LOGO BAR ── */
+  .logo-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 24px 6px;
+    flex-shrink: 0;
+    gap: 8px;
+  }
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+  }
+  .logo-wordmark {
+    font-size: 22px;
+    line-height: 1;
+    letter-spacing: -0.5px;
+  }
+  .logo-prep { font-weight: 700; color: var(--text); }
+  .logo-wise { font-weight: 400; color: var(--green); }
+
   /* ── DESKTOP LABEL ── */
   .desktop-label {
     position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
@@ -399,6 +421,22 @@
           <span>●●●</span>
           <span>WiFi</span>
           <span>🔋</span>
+        </div>
+      </div>
+
+      <!-- LOGO BAR -->
+      <div class="logo-bar">
+        <svg class="logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Apple shape -->
+          <path d="M16 5.5C16 5.5 17.5 2.5 20.5 3C20.5 3 20.5 5.5 18 6.5" stroke="#2ECC8A" stroke-width="1.2" stroke-linecap="round"/>
+          <path d="M10.5 8C8.5 8 5 10 5 15.5C5 21 8.5 27 12 27C13.5 27 14.5 26 16 26C17.5 26 18.5 27 20 27C23.5 27 27 21 27 15.5C27 10 23.5 8 21.5 8C20 8 18.5 9 16 9C13.5 9 12 8 10.5 8Z" fill="#2ECC8A"/>
+          <!-- Bar chart inside apple -->
+          <rect x="10" y="19" width="3" height="5" rx="0.5" fill="white" opacity="0.9"/>
+          <rect x="14.5" y="15.5" width="3" height="8.5" rx="0.5" fill="white" opacity="0.9"/>
+          <rect x="19" y="17.5" width="3" height="6.5" rx="0.5" fill="white" opacity="0.9"/>
+        </svg>
+        <div class="logo-wordmark">
+          <span class="logo-prep">Prep</span><span class="logo-wise">wise</span>
         </div>
       </div>
 
