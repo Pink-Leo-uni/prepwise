@@ -619,7 +619,7 @@
             <div style="font-size:13px;color:var(--muted);margin-bottom:14px;">Prices detected automatically</div>
           </div>
 
-          <div class="scan-zone">
+          <div class="scan-zone" onclick="startScanAnimation()">
             <div class="scan-emoji">📷</div>
             <div class="scan-title">Take a photo</div>
             <div class="scan-sub">Point your camera at your grocery receipt</div>
@@ -1097,6 +1097,87 @@
     opacity: 0; transition: all 0.3s; pointer-events: none;
   }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ── SCAN ANIMATION OVERLAY ── */
+  .scan-anim-overlay {
+    position: absolute; inset: 0; z-index: 350;
+    background: rgba(0,0,0,0.92);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    border-radius: 42px;
+    opacity: 0; transition: opacity 0.35s;
+    pointer-events: none;
+  }
+  .scan-anim-overlay.visible { opacity: 1; pointer-events: all; }
+  @media (max-width: 430px) { .scan-anim-overlay { border-radius: 0; } }
+
+  .scan-viewfinder {
+    width: 260px; height: 200px;
+    border: 2px solid rgba(255,255,255,0.5);
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Corner brackets */
+  .scan-corner {
+    position: absolute; width: 22px; height: 22px;
+    border-color: #fff; border-style: solid; transition: border-color 0.3s;
+  }
+  .scan-corner.tl { top: -1px; left: -1px; border-width: 3px 0 0 3px; border-radius: 6px 0 0 0; }
+  .scan-corner.tr { top: -1px; right: -1px; border-width: 3px 3px 0 0; border-radius: 0 6px 0 0; }
+  .scan-corner.bl { bottom: -1px; left: -1px; border-width: 0 0 3px 3px; border-radius: 0 0 0 6px; }
+  .scan-corner.br { bottom: -1px; right: -1px; border-width: 0 3px 3px 0; border-radius: 0 0 6px 0; }
+  .scan-corner.pulse { border-color: var(--green); }
+
+  /* Scan line */
+  .scan-line {
+    position: absolute; left: 0; right: 0; height: 2px;
+    background: var(--green);
+    box-shadow: 0 0 8px 3px rgba(46,204,138,0.5);
+    top: 0;
+    animation: scanMove 1.5s ease-in-out infinite;
+  }
+  @keyframes scanMove {
+    0%   { top: 0; opacity: 1; }
+    85%  { top: calc(100% - 2px); opacity: 1; }
+    100% { top: calc(100% - 2px); opacity: 0; }
+  }
+
+  /* Price tags */
+  .scan-price-tag {
+    position: absolute;
+    background: var(--green); color: #fff;
+    border-radius: 20px; padding: 5px 11px;
+    font-size: 12px; font-weight: 600;
+    white-space: nowrap;
+    opacity: 0;
+    animation: tagIn 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  }
+  @keyframes tagIn {
+    from { opacity: 0; transform: scale(0.7) translateY(6px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Success check */
+  .scan-success-check {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 52px;
+    animation: checkIn 0.45s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  }
+  @keyframes checkIn {
+    from { transform: scale(0); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+  }
+
+  .scan-status-text {
+    color: rgba(255,255,255,0.85);
+    font-size: 14px; font-weight: 500;
+    margin-top: 20px; letter-spacing: 0.2px;
+    transition: opacity 0.2s;
+    text-align: center;
+  }
 
   /* ── ONBOARDING ── */
   .onboarding-overlay {
@@ -1584,6 +1665,95 @@
     // Chat greeting
     const chatBubble = document.querySelector('#page-chat .bubble.bot');
     if (chatBubble) chatBubble.textContent = `Hey ${name}! I'm your personal meal prep assistant. What can I do for you today?`;
+  }
+
+  // ── SCAN ANIMATION ──
+  function startScanAnimation() {
+    if (document.querySelector('.scan-anim-overlay')) return; // prevent double-tap
+
+    const phoneScreen = document.querySelector('.phone-screen');
+
+    // Build overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'scan-anim-overlay';
+    overlay.innerHTML = `
+      <div class="scan-viewfinder" id="scan-vf">
+        <div class="scan-corner tl"></div>
+        <div class="scan-corner tr"></div>
+        <div class="scan-corner bl"></div>
+        <div class="scan-corner br"></div>
+      </div>
+      <div class="scan-status-text" id="scan-status">Point at your receipt</div>
+    `;
+    phoneScreen.appendChild(overlay);
+    requestAnimationFrame(() => overlay.classList.add('visible'));
+
+    const vf = () => document.getElementById('scan-vf');
+    const status = () => document.getElementById('scan-status');
+
+    // STAGE 2 — Scanning (500ms)
+    setTimeout(() => {
+      if (!document.querySelector('.scan-anim-overlay')) return;
+      document.querySelectorAll('.scan-corner').forEach(c => c.classList.add('pulse'));
+
+      const line = document.createElement('div');
+      line.className = 'scan-line';
+      line.id = 'scan-line';
+      vf().appendChild(line);
+
+      // VIDEO PLACEHOLDER — INSERT VIDEO HERE
+      // Real receipt footage will play here instead of the scan line animation
+
+      if (status()) status().textContent = 'Scanning...';
+    }, 500);
+
+    // STAGE 3 — Reading prices (2000ms)
+    const priceTags = [
+      { text: 'Chicken breast · €3.99', top: '14%',  left: '8%'  },
+      { text: 'Basmati rice · €1.89',   top: '30%',  left: '28%' },
+      { text: 'Broccoli · €1.49',       top: '48%',  left: '6%'  },
+      { text: 'Oats · €0.99',           top: '64%',  left: '32%' },
+      { text: 'Milk · €1.29',           top: '78%',  left: '10%' },
+    ];
+    setTimeout(() => {
+      if (!document.querySelector('.scan-anim-overlay')) return;
+      const line = document.getElementById('scan-line');
+      if (line) line.remove();
+      if (status()) status().textContent = 'Reading prices...';
+
+      priceTags.forEach((tag, i) => {
+        setTimeout(() => {
+          if (!vf()) return;
+          const el = document.createElement('div');
+          el.className = 'scan-price-tag';
+          el.textContent = tag.text;
+          el.style.top = tag.top;
+          el.style.left = tag.left;
+          vf().appendChild(el);
+        }, i * 300);
+      });
+    }, 2000);
+
+    // STAGE 4 — Success (3800ms)
+    setTimeout(() => {
+      if (!vf()) return;
+      vf().innerHTML = `
+        <div class="scan-corner tl pulse"></div>
+        <div class="scan-corner tr pulse"></div>
+        <div class="scan-corner bl pulse"></div>
+        <div class="scan-corner br pulse"></div>
+        <div class="scan-success-check">✅</div>
+      `;
+      if (status()) status().textContent = '5 prices matched!';
+    }, 3800);
+
+    // DONE — fade out (4800ms)
+    setTimeout(() => {
+      const ov = document.querySelector('.scan-anim-overlay');
+      if (!ov) return;
+      ov.style.opacity = '0';
+      setTimeout(() => ov.remove(), 380);
+    }, 4800);
   }
 
   // Init: skip or show onboarding
