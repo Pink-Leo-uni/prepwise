@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Prepwise">
 <title>Prepwise</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono&display=swap" rel="stylesheet">
 <style>
@@ -389,10 +392,12 @@
   /* ── MOBILE FULL SCREEN ── */
   @media (max-width: 430px) {
     .app-shell { background: var(--bg); align-items: flex-start; }
-    .phone-frame { width: 100%; height: 100vh; border-radius: 0; padding: 0; background: none; box-shadow: none; }
+    .phone-frame { width: 100%; height: 100%; height: 100dvh; border-radius: 0; padding: 0; background: none; box-shadow: none; }
     .phone-screen { border-radius: 0; }
-    .bottom-nav { border-radius: 0; }
-    .status-bar { padding-top: 50px; }
+    .bottom-nav { border-radius: 0; padding-bottom: max(20px, env(safe-area-inset-bottom)); }
+    .screen-content { padding-bottom: calc(90px + env(safe-area-inset-bottom)); }
+    .status-bar { display: none; }
+    .logo-bar { padding-top: calc(8px + env(safe-area-inset-top)); }
     .desktop-label { display: none; }
   }
 
