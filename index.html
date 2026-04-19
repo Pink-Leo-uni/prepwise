@@ -1098,6 +1098,31 @@
   }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+  /* ── CHAT ANIMATION ── */
+  .typing-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--muted); display: inline-block; margin: 0 2px;
+    animation: typingBounce 0.8s ease-in-out infinite;
+  }
+  .typing-dot:nth-child(2) { animation-delay: 0.15s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.30s; }
+  @keyframes typingBounce {
+    0%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-6px); }
+  }
+  @keyframes sendPulse {
+    0%   { transform: scale(1);    box-shadow: 0 0 0 0   rgba(46,204,138,0.5); }
+    50%  { transform: scale(1.18); box-shadow: 0 0 0 10px rgba(46,204,138,0);  }
+    100% { transform: scale(1);    box-shadow: 0 0 0 0   rgba(46,204,138,0);   }
+  }
+  .chat-send.pulse { animation: sendPulse 0.4s ease forwards; }
+  @keyframes qrSlideIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .qr-anim { animation: qrSlideIn 0.3s ease forwards; opacity: 0; }
+  .chat-input-field.active { border: 1.5px solid var(--green); color: var(--text); }
+
   /* ── SCAN ANIMATION OVERLAY ── */
   .scan-anim-overlay {
     position: absolute; inset: 0; z-index: 350;
@@ -1313,6 +1338,8 @@
     document.getElementById('page-' + name).classList.add('active');
     document.getElementById('tab-' + name).classList.add('active');
     document.getElementById('mainContent').scrollTop = 0;
+    if (name === 'chat') { scheduleChatAnimation(); }
+    else { resetChatAnimation(); }
   }
 
   function updateClock() {
@@ -1754,6 +1781,200 @@
       ov.style.opacity = '0';
       setTimeout(() => ov.remove(), 380);
     }, 4800);
+  }
+
+  // ── CHAT ANIMATION ──
+  let chatAnimTimers = [];
+  let chatTypingTimer = null;
+
+  function resetChatAnimation() {
+    chatAnimTimers.forEach(clearTimeout);
+    chatAnimTimers = [];
+    if (chatTypingTimer) { clearTimeout(chatTypingTimer); chatTypingTimer = null; }
+    dismissKeyboard();
+    document.querySelectorAll('.chat-anim-el').forEach(el => el.remove());
+    const field = document.querySelector('.chat-input-field');
+    if (field) { field.textContent = 'Ask me anything...'; field.classList.remove('active'); }
+    const sendBtn = document.querySelector('.chat-send');
+    if (sendBtn) sendBtn.classList.remove('pulse');
+  }
+
+  function chatT(ms, fn) {
+    const id = setTimeout(fn, ms);
+    chatAnimTimers.push(id);
+  }
+
+  function getChatContainer() {
+    return document.querySelector('#page-chat > div[style*="padding:0 16px"]');
+  }
+
+  function chatScrollBottom() {
+    const c = document.getElementById('mainContent');
+    if (c) c.scrollTop = c.scrollHeight;
+  }
+
+  function buildChatKeyboard() {
+    const rows = [
+      ['q','w','e','r','t','y','u','i','o','p'],
+      ['a','s','d','f','g','h','j','k','l'],
+      ['⇧','z','x','c','v','b','n','m','⌫'],
+      ['123',' ','.','/','↩']
+    ];
+    const kb = document.createElement('div');
+    kb.className = 'kb-overlay chat-anim-el';
+    kb.id = 'kb-overlay';
+
+    const inputBar = document.createElement('div');
+    inputBar.className = 'kb-input-bar';
+    inputBar.innerHTML = `<div class="kb-input-text" id="kb-chat-text" style="color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;"></div>`;
+    kb.appendChild(inputBar);
+
+    const body = document.createElement('div');
+    body.className = 'kb-body';
+    rows.forEach(row => {
+      const rowEl = document.createElement('div');
+      rowEl.className = 'kb-row';
+      row.forEach(k => {
+        const key = document.createElement('div');
+        key.className = 'kb-key';
+        key.textContent = k;
+        if (k === ' ') { key.className += ' space'; key.textContent = 'space'; }
+        else if (['⇧','⌫','123','↩'].includes(k)) key.className += ' wide';
+        rowEl.appendChild(key);
+      });
+      body.appendChild(rowEl);
+    });
+    kb.appendChild(body);
+    document.querySelector('.phone-screen').appendChild(kb);
+    kbOverlay = kb;
+    requestAnimationFrame(() => kb.classList.add('visible'));
+    return kb;
+  }
+
+  function scheduleChatAnimation() {
+    resetChatAnimation();
+
+    const MSG = "I still have chicken, rice & broccoli from last week. I'm at the store now with €2 left. What should I cook and what do I need to buy?";
+    const RESPONSE_TOKENS = [
+      { text: 'Perfect! Make a ', bold: false },
+      { text: 'Chicken Rice Bowl', bold: true },
+      { text: ' — €2.80 total, 512 kcal, 42g protein. You only need to grab ', bold: false },
+      { text: 'olive oil + one lemon', bold: true },
+      { text: ' for €1.60. That fits your budget!', bold: false }
+    ];
+
+    // t=600ms: keyboard + typing
+    chatT(600, () => {
+      buildChatKeyboard();
+      const field = document.querySelector('.chat-input-field');
+      if (field) { field.textContent = ''; field.classList.add('active'); }
+
+      const totalTime = 3000;
+      const delay = totalTime / MSG.length;
+      let i = 0;
+
+      function typeNext() {
+        if (!document.querySelector('.chat-anim-el')) return; // was reset
+        const ch = MSG[i];
+        flashKey(ch);
+        if (field) field.textContent = MSG.slice(0, i + 1);
+        const kbText = document.getElementById('kb-chat-text');
+        if (kbText) kbText.textContent = MSG.slice(0, i + 1);
+        i++;
+        if (i < MSG.length) {
+          chatTypingTimer = setTimeout(typeNext, delay);
+        } else {
+          // t=3600ms: send pulse
+          const sendBtn = document.querySelector('.chat-send');
+          if (sendBtn) {
+            sendBtn.classList.add('pulse');
+            chatT(400, () => sendBtn.classList.remove('pulse'));
+          }
+          // t=3900ms: dismiss keyboard, reset field, add user bubble
+          chatT(300, () => {
+            dismissKeyboard();
+            if (field) { field.textContent = 'Ask me anything...'; field.classList.remove('active'); }
+          });
+          chatT(350, () => {
+            const container = getChatContainer();
+            if (!container) return;
+            const userBubble = document.createElement('div');
+            userBubble.className = 'chat-msg clearfix chat-anim-el';
+            userBubble.innerHTML = `<div class="bubble user">${MSG}</div>`;
+            container.appendChild(userBubble);
+            chatScrollBottom();
+          });
+          // t=4050ms: typing indicator
+          chatT(450, () => {
+            const container = getChatContainer();
+            if (!container) return;
+            const typingEl = document.createElement('div');
+            typingEl.className = 'chat-msg chat-anim-el';
+            typingEl.id = 'chat-typing-indicator';
+            typingEl.innerHTML = `<div class="bubble bot" style="padding:12px 16px;"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>`;
+            container.appendChild(typingEl);
+            chatScrollBottom();
+          });
+          // t=5250ms: replace typing indicator with response word by word
+          chatT(1650, () => {
+            const indicator = document.getElementById('chat-typing-indicator');
+            if (indicator) indicator.remove();
+            const container = getChatContainer();
+            if (!container) return;
+
+            const botMsg = document.createElement('div');
+            botMsg.className = 'chat-msg chat-anim-el';
+            const botBubble = document.createElement('div');
+            botBubble.className = 'bubble bot';
+            botBubble.innerHTML = '';
+            botMsg.appendChild(botBubble);
+            container.appendChild(botMsg);
+            chatScrollBottom();
+
+            // Build flat list of {text, bold} words for reveal
+            const words = [];
+            RESPONSE_TOKENS.forEach(token => {
+              const parts = token.text.split(/(\s+)/);
+              parts.forEach(part => { if (part) words.push({ text: part, bold: token.bold }); });
+            });
+
+            const wordDelay = 2000 / words.length;
+            let wi = 0;
+            function revealWord() {
+              if (!botBubble.isConnected) return;
+              if (wi < words.length) {
+                const w = words[wi];
+                if (w.bold) {
+                  botBubble.innerHTML += `<strong>${w.text}</strong>`;
+                } else {
+                  botBubble.innerHTML += w.text;
+                }
+                wi++;
+                chatScrollBottom();
+                chatTypingTimer = setTimeout(revealWord, wordDelay);
+              } else {
+                // t=7250ms: show quick replies
+                chatT(200, () => {
+                  const container2 = getChatContainer();
+                  if (!container2) return;
+                  const qr = document.createElement('div');
+                  qr.className = 'quick-replies chat-anim-el';
+                  qr.style.marginTop = '6px';
+                  qr.innerHTML = `
+                    <div class="qr qr-anim" style="background:var(--green);color:#fff;border-color:var(--green);" onclick="switchTab('recipes')">Show recipe</div>
+                    <div class="qr qr-anim" style="animation-delay:0.12s;" onclick="switchTab('week')">Add to week plan</div>
+                  `;
+                  container2.appendChild(qr);
+                  chatScrollBottom();
+                });
+              }
+            }
+            revealWord();
+          });
+        }
+      }
+      typeNext();
+    });
   }
 
   // ── LOGO RESET TRIGGER (5 taps) ──
