@@ -430,7 +430,7 @@
       </div>
 
       <!-- LOGO BAR -->
-      <div class="logo-bar">
+      <div class="logo-bar" onclick="handleLogoTap()">
         <svg class="logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
           <!-- Apple shape -->
           <path d="M16 5.5C16 5.5 17.5 2.5 20.5 3C20.5 3 20.5 5.5 18 6.5" stroke="#2ECC8A" stroke-width="1.2" stroke-linecap="round"/>
@@ -1754,6 +1754,21 @@
       ov.style.opacity = '0';
       setTimeout(() => ov.remove(), 380);
     }, 4800);
+  }
+
+  // ── LOGO RESET TRIGGER (5 taps) ──
+  let logoTapCount = 0;
+  let logoTapTimer = null;
+  function handleLogoTap() {
+    logoTapCount++;
+    clearTimeout(logoTapTimer);
+    logoTapTimer = setTimeout(() => { logoTapCount = 0; }, 1500);
+    if (logoTapCount >= 5) {
+      logoTapCount = 0;
+      const t = document.getElementById('toast');
+      if (t) { t.textContent = '🔄 App reset'; t.classList.add('show'); }
+      setTimeout(() => { localStorage.clear(); location.reload(); }, 800);
+    }
   }
 
   // Init: skip or show onboarding
