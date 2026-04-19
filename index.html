@@ -272,7 +272,7 @@
   .receipt-price { font-weight: 600; color: var(--text); }
 
   /* ── CHAT ── */
-  .chat-msg { margin-bottom: 10px; }
+  .chat-msg { margin-bottom: 16px; }
   .bubble {
     display: inline-block; padding: 10px 14px;
     border-radius: 18px; font-size: 13px; line-height: 1.55;
@@ -1854,7 +1854,7 @@
   function scheduleChatAnimation() {
     resetChatAnimation();
 
-    const MSG = "I still have chicken, rice & broccoli from last week. I'm at the store now with €2 left. What should I cook and what do I need to buy?";
+    const MSG = "I still have everything from last week's groceries. I'm at the store now with €2 left. What should I cook and what do I need to buy?";
     const RESPONSE_TOKENS = [
       { text: 'Perfect! Make a ', bold: false },
       { text: 'Chicken Rice Bowl', bold: true },
@@ -1869,7 +1869,7 @@
       const field = document.querySelector('.chat-input-field');
       if (field) { field.textContent = ''; field.classList.add('active'); }
 
-      const totalTime = 3000;
+      const totalTime = 7500;
       const delay = totalTime / MSG.length;
       let i = 0;
 
@@ -1900,6 +1900,7 @@
             if (!container) return;
             const userBubble = document.createElement('div');
             userBubble.className = 'chat-msg clearfix chat-anim-el';
+            userBubble.style.marginTop = '16px';
             userBubble.innerHTML = `<div class="bubble user">${MSG}</div>`;
             container.appendChild(userBubble);
             chatScrollBottom();
