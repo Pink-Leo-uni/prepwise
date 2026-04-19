@@ -707,92 +707,21 @@
         </div>
       </div>
 
-      <!-- ONBOARDING OVERLAY -->
-      <div class="onboarding-overlay" id="onboarding">
-
-        <!-- Progress dots -->
-        <div class="ob-progress" id="ob-progress">
-          <div class="ob-dot active" id="ob-dot-0"></div>
-          <div class="ob-dot" id="ob-dot-1"></div>
-          <div class="ob-dot" id="ob-dot-2"></div>
+      <!-- SPLASH SCREEN -->
+      <div id="splash" onclick="splashTap()">
+        <div class="splash-body">
+          <svg class="splash-logo" viewBox="0 0 100 78" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 10C50 10 54.7 1 64 2C64 2 64 10 57 13" stroke="white" stroke-width="3" stroke-linecap="round"/>
+            <path d="M36 20 C24 20 14 29 14 41 C14 55 23 64 36 64 C41 64 44 61 49 61 C54 61 57 64 62 64 C75 64 84 55 84 41 C84 29 74 20 62 20 C57 20 54 23 49 23 C44 23 41 20 36 20Z" fill="white"/>
+            <rect x="30" y="48" width="8" height="13" rx="1.5" fill="#2ECC8A"/>
+            <rect x="43" y="40" width="8" height="21" rx="1.5" fill="#2ECC8A"/>
+            <rect x="56" y="44" width="8" height="17" rx="1.5" fill="#2ECC8A"/>
+          </svg>
+          <div class="splash-wordmark">Prep<span>wise</span></div>
+          <div class="splash-tagline">Eat smart. Spend less.</div>
         </div>
-
-        <!-- Slides wrapper -->
-        <div class="ob-slides-wrap">
-          <div class="ob-slides" id="ob-slides">
-
-            <!-- Step 1: Welcome -->
-            <div class="ob-slide">
-              <div class="ob-logo-wrap">
-                <svg class="ob-logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M16 5.5C16 5.5 17.5 2.5 20.5 3C20.5 3 20.5 5.5 18 6.5" stroke="#2ECC8A" stroke-width="1.2" stroke-linecap="round"/>
-                  <path d="M10.5 8C8.5 8 5 10 5 15.5C5 21 8.5 27 12 27C13.5 27 14.5 26 16 26C17.5 26 18.5 27 20 27C23.5 27 27 21 27 15.5C27 10 23.5 8 21.5 8C20 8 18.5 9 16 9C13.5 9 12 8 10.5 8Z" fill="#2ECC8A"/>
-                  <rect x="10" y="19" width="3" height="5" rx="0.5" fill="white" opacity="0.9"/>
-                  <rect x="14.5" y="15.5" width="3" height="8.5" rx="0.5" fill="white" opacity="0.9"/>
-                  <rect x="19" y="17.5" width="3" height="6.5" rx="0.5" fill="white" opacity="0.9"/>
-                </svg>
-                <div class="ob-wordmark">Prep<span>wise</span></div>
-                <div class="ob-headline">Eat smart.<br>Spend less.</div>
-                <div class="ob-subline">Your personal meal prep assistant</div>
-              </div>
-              <input class="ob-input" id="ob-name" type="text" placeholder="What's your name?" autocomplete="off" spellcheck="false">
-              <button class="ob-btn" onclick="obNext()">Get started →</button>
-            </div>
-
-            <!-- Step 2: Calorie Goal -->
-            <div class="ob-slide">
-              <div class="ob-step-headline">What's your daily<br>calorie goal?</div>
-              <div class="ob-step-subline">We'll track your intake against this target.</div>
-              <div class="ob-option-cards" id="ob-cal-cards">
-                <div class="ob-option-card" onclick="obSelectCal(this, 1500)">
-                  <div><div class="ob-option-main">1,500 kcal</div><div class="ob-option-sub">Light</div></div>
-                  <div class="ob-check">✓</div>
-                </div>
-                <div class="ob-option-card" onclick="obSelectCal(this, 2000)">
-                  <div><div class="ob-option-main">2,000 kcal</div><div class="ob-option-sub">Balanced</div></div>
-                  <div class="ob-check">✓</div>
-                </div>
-                <div class="ob-option-card" onclick="obSelectCal(this, 2500)">
-                  <div><div class="ob-option-main">2,500 kcal</div><div class="ob-option-sub">Active</div></div>
-                  <div class="ob-check">✓</div>
-                </div>
-                <div class="ob-option-card" onclick="obSelectCal(this, 3000)">
-                  <div><div class="ob-option-main">3,000 kcal</div><div class="ob-option-sub">Athlete</div></div>
-                  <div class="ob-check">✓</div>
-                </div>
-              </div>
-              <button class="ob-btn" onclick="obNext()">Next →</button>
-            </div>
-
-            <!-- Step 3: Budget Goal -->
-            <div class="ob-slide">
-              <div class="ob-step-headline">What's your weekly<br>food budget?</div>
-              <div class="ob-step-subline">We'll help you stay on track without overspending.</div>
-              <div class="ob-option-cards" id="ob-budget-cards">
-                <div class="ob-option-card" onclick="obSelectBudget(this, 30)">
-                  <div><div class="ob-option-main">€30</div><div class="ob-option-sub">Tight</div></div>
-                  <div class="ob-check">✓</div>
-                </div>
-                <div class="ob-option-card" onclick="obSelectBudget(this, 50)">
-                  <div><div class="ob-option-main">€50</div><div class="ob-option-sub">Moderate</div></div>
-                  <div class="ob-check">✓</div>
-                </div>
-                <div class="ob-option-card" onclick="obSelectBudget(this, 75)">
-                  <div><div class="ob-option-main">€75</div><div class="ob-option-sub">Comfortable</div></div>
-                  <div class="ob-check">✓</div>
-                </div>
-                <div class="ob-option-card" onclick="obSelectBudget(this, 100)">
-                  <div><div class="ob-option-main">€100</div><div class="ob-option-sub">Flexible</div></div>
-                  <div class="ob-check">✓</div>
-                </div>
-              </div>
-              <button class="ob-btn" onclick="obFinish()">Let's go →</button>
-            </div>
-
-          </div><!-- ob-slides -->
-        </div><!-- ob-slides-wrap -->
-
-      </div><!-- onboarding -->
+        <div class="splash-hint">Tap to continue</div>
+      </div><!-- splash -->
 
     </div><!-- phone-screen -->
   </div><!-- phone-frame -->
@@ -1204,130 +1133,52 @@
     text-align: center;
   }
 
-  /* ── ONBOARDING ── */
-  .onboarding-overlay {
+  /* ── SPLASH SCREEN ── */
+  #splash {
     position: absolute;
     inset: 0;
-    background: var(--bg);
+    background: var(--green);
     z-index: 400;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     border-radius: 42px;
     overflow: hidden;
-    transition: opacity 0.45s ease;
+    cursor: pointer;
+    transition: opacity 0.4s ease;
+    user-select: none;
   }
-  .onboarding-overlay.fade-out { opacity: 0; pointer-events: none; }
+  #splash.fade-out { opacity: 0; pointer-events: none; }
+  #splash.locked { pointer-events: none; }
 
-  .ob-progress {
-    display: flex;
-    justify-content: center;
-    gap: 6px;
-    padding: 20px 0 10px;
-    flex-shrink: 0;
-  }
-  .ob-dot {
-    height: 6px; width: 6px; border-radius: 3px;
-    background: var(--border);
-    transition: width 0.3s ease, background 0.3s ease, opacity 0.3s ease;
-  }
-  .ob-dot.active { width: 20px; background: var(--green); }
-  .ob-dot.done { background: var(--green); opacity: 0.35; }
-
-  .ob-slides-wrap { flex: 1; overflow: hidden; min-height: 0; }
-  .ob-slides {
-    display: flex;
-    height: 100%;
-    transition: transform 0.42s cubic-bezier(0.32, 0.72, 0, 1);
-    will-change: transform;
-  }
-  .ob-slide {
-    min-width: 100%; height: 100%;
+  .splash-body {
     display: flex; flex-direction: column;
-    padding: 12px 24px 28px;
-    overflow-y: auto; overflow-x: hidden;
-    scrollbar-width: none; -webkit-overflow-scrolling: touch;
-  }
-  .ob-slide::-webkit-scrollbar { display: none; }
-
-  .ob-logo-wrap {
-    flex: 1; display: flex; flex-direction: column;
     align-items: center; justify-content: center;
-    padding-bottom: 8px;
+    flex: 1;
   }
-  .ob-logo-icon { width: 88px; height: 88px; margin-bottom: 18px; }
-  .ob-wordmark {
-    font-size: 30px; font-weight: 700; color: var(--text);
-    letter-spacing: -0.5px; margin-bottom: 28px;
+  .splash-logo { width: 80px; height: 62px; margin-bottom: 18px; }
+  .splash-wordmark {
+    font-size: 28px; font-weight: 600; color: #fff;
+    letter-spacing: -0.3px; margin-bottom: 10px;
   }
-  .ob-wordmark span { color: var(--green); font-weight: 400; }
-  .ob-headline {
-    font-size: 28px; font-weight: 700; color: var(--text);
-    line-height: 1.15; margin-bottom: 8px; letter-spacing: -0.5px;
-    text-align: center;
+  .splash-wordmark span { font-weight: 400; opacity: 0.9; }
+  .splash-tagline {
+    font-size: 16px; font-weight: 400; color: #fff;
+    opacity: 0.85;
   }
-  .ob-subline {
-    font-size: 15px; color: var(--muted); line-height: 1.5;
-    margin-bottom: 28px; text-align: center;
+  .splash-hint {
+    font-size: 13px; color: rgba(255,255,255,0.7);
+    padding-bottom: 36px;
+    animation: splash-pulse 1.8s ease-in-out infinite;
   }
-
-  .ob-step-headline {
-    font-size: 24px; font-weight: 700; color: var(--text);
-    line-height: 1.2; margin-bottom: 6px; letter-spacing: -0.5px;
-    margin-top: 12px;
-  }
-  .ob-step-subline { font-size: 14px; color: var(--muted); margin-bottom: 20px; }
-
-  .ob-input {
-    width: 100%; background: var(--card);
-    border: 1.5px solid var(--border); border-radius: 14px;
-    padding: 15px 16px; font-size: 16px; font-weight: 500;
-    color: var(--text); font-family: 'DM Sans', sans-serif;
-    outline: none; margin-bottom: 16px; transition: border-color 0.2s;
-  }
-  .ob-input:focus { border-color: var(--green); }
-  .ob-input.error { border-color: var(--orange); animation: ob-shake 0.3s ease; }
-  @keyframes ob-shake {
-    0%,100% { transform: translateX(0); }
-    25% { transform: translateX(-6px); }
-    75% { transform: translateX(6px); }
-  }
-
-  .ob-btn {
-    width: 100%; background: var(--green); color: #fff;
-    border: none; border-radius: 14px; padding: 16px;
-    font-size: 16px; font-weight: 600; cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: transform 0.1s, opacity 0.1s;
-    flex-shrink: 0;
-  }
-  .ob-btn:active { transform: scale(0.98); opacity: 0.9; }
-
-  .ob-option-cards { display: flex; flex-direction: column; gap: 10px; flex: 1; margin-bottom: 16px; }
-  .ob-option-card {
-    background: var(--card); border: 1.5px solid var(--border);
-    border-radius: 18px; padding: 15px 18px; cursor: pointer;
-    transition: all 0.15s; display: flex; align-items: center;
-    justify-content: space-between; flex-shrink: 0;
-  }
-  .ob-option-card:active { transform: scale(0.98); }
-  .ob-option-card.selected {
-    border-color: var(--green); border-width: 2px; background: var(--green-light);
-  }
-  .ob-option-main { font-size: 16px; font-weight: 600; color: var(--text); }
-  .ob-option-sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
-  .ob-check {
-    width: 22px; height: 22px; border-radius: 50%;
-    border: 1.5px solid var(--border); background: var(--bg);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 12px; color: transparent; flex-shrink: 0;
-    transition: all 0.15s;
-  }
-  .ob-option-card.selected .ob-check {
-    background: var(--green); border-color: var(--green); color: #fff;
+  @keyframes splash-pulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 0.35; }
   }
 
   @media (max-width: 430px) {
-    .onboarding-overlay { border-radius: 0; }
+    #splash { border-radius: 0; }
   }
 </style>
 
@@ -1599,100 +1450,42 @@
     setTimeout(() => t.classList.remove('show'), 2500);
   }
 
-  // ── ONBOARDING ──
-  let obStep = 0;
-  let obCalGoal = null;
-  let obBudget = null;
+  // ── SPLASH SCREEN ──
+  let splashReady = false;
 
-  function obSelectCal(el, val) {
-    document.querySelectorAll('#ob-cal-cards .ob-option-card').forEach(c => c.classList.remove('selected'));
-    el.classList.add('selected');
-    obCalGoal = val;
-  }
-
-  function obSelectBudget(el, val) {
-    document.querySelectorAll('#ob-budget-cards .ob-option-card').forEach(c => c.classList.remove('selected'));
-    el.classList.add('selected');
-    obBudget = val;
-  }
-
-  function obUpdateDots() {
-    for (let i = 0; i < 3; i++) {
-      const dot = document.getElementById('ob-dot-' + i);
-      dot.classList.remove('active', 'done');
-      if (i < obStep) dot.classList.add('done');
-      else if (i === obStep) dot.classList.add('active');
+  function showSplash() {
+    let splash = document.getElementById('splash');
+    if (!splash) {
+      splash = document.createElement('div');
+      splash.id = 'splash';
+      splash.onclick = splashTap;
+      splash.innerHTML = `
+        <div class="splash-body">
+          <svg class="splash-logo" viewBox="0 0 100 78" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 10C50 10 54.7 1 64 2C64 2 64 10 57 13" stroke="white" stroke-width="3" stroke-linecap="round"/>
+            <path d="M36 20 C24 20 14 29 14 41 C14 55 23 64 36 64 C41 64 44 61 49 61 C54 61 57 64 62 64 C75 64 84 55 84 41 C84 29 74 20 62 20 C57 20 54 23 49 23 C44 23 41 20 36 20Z" fill="white"/>
+            <rect x="30" y="48" width="8" height="13" rx="1.5" fill="#2ECC8A"/>
+            <rect x="43" y="40" width="8" height="21" rx="1.5" fill="#2ECC8A"/>
+            <rect x="56" y="44" width="8" height="17" rx="1.5" fill="#2ECC8A"/>
+          </svg>
+          <div class="splash-wordmark">Prep<span>wise</span></div>
+          <div class="splash-tagline">Eat smart. Spend less.</div>
+        </div>
+        <div class="splash-hint">Tap to continue</div>
+      `;
+      document.querySelector('.phone-screen').appendChild(splash);
     }
+    splash.classList.remove('fade-out');
+    splashReady = false;
+    setTimeout(() => { splashReady = true; }, 800);
   }
 
-  function obNext() {
-    if (obStep === 0) {
-      const name = document.getElementById('ob-name').value.trim();
-      if (!name) {
-        const inp = document.getElementById('ob-name');
-        inp.classList.add('error');
-        inp.focus();
-        setTimeout(() => inp.classList.remove('error'), 400);
-        return;
-      }
-    }
-    if (obStep === 1 && !obCalGoal) {
-      // shake the cards slightly — just ignore and stay
-      return;
-    }
-    obStep++;
-    obUpdateDots();
-    document.getElementById('ob-slides').style.transform = `translateX(-${obStep * 100}%)`;
-  }
-
-  function obFinish() {
-    if (!obBudget) return;
-
-    const name = document.getElementById('ob-name').value.trim();
-    const data = { name, calGoal: obCalGoal || 2000, budget: obBudget };
-    localStorage.setItem('pw_user', JSON.stringify(data));
-
-    applyUserData(data);
-
-    const ov = document.getElementById('onboarding');
-    ov.classList.add('fade-out');
-    setTimeout(() => ov.remove(), 450);
-  }
-
-  function applyUserData(data) {
-    const { name, calGoal, budget } = data;
-
-    // Greeting
-    const greetingName = document.querySelector('.greeting-name');
-    if (greetingName) {
-      const initial = name.charAt(0).toUpperCase();
-      greetingName.textContent = name + ' 👋';
-      const avatar = document.querySelector('.avatar');
-      if (avatar) avatar.textContent = initial;
-    }
-
-    // Calorie stat
-    const eaten = 1240;
-    const calSub = document.querySelector('.stat-box:first-child .stat-sub');
-    if (calSub) calSub.textContent = `of ${calGoal.toLocaleString()} kcal`;
-    const calFill = document.querySelector('.stat-box:first-child .progress-fill');
-    if (calFill) calFill.style.width = Math.round((eaten / calGoal) * 100) + '%';
-
-    // Budget stat on home
-    const budgetSub = document.querySelector('.stat-box:last-child .stat-sub');
-    if (budgetSub) budgetSub.textContent = `of €${budget} spent`;
-    const budgetFill = document.querySelector('.stat-box:last-child .progress-fill');
-    if (budgetFill) budgetFill.style.width = Math.round((38.20 / budget) * 100) + '%';
-
-    // Week plan budget text
-    const weekSub = document.querySelector('#page-week .bb-val');
-    if (weekSub) weekSub.innerHTML = `€38.20 <span style="font-size:13px;color:var(--muted);">/ €${budget}</span>`;
-    const weekTitle = document.querySelector('#page-week > div > div:nth-child(2)');
-    if (weekTitle) weekTitle.textContent = `Week 16 · Budget: €${budget}`;
-
-    // Chat greeting
-    const chatBubble = document.querySelector('#page-chat .bubble.bot');
-    if (chatBubble) chatBubble.textContent = `Hey ${name}! I'm your personal meal prep assistant. What can I do for you today?`;
+  function splashTap() {
+    if (!splashReady) return;
+    const splash = document.getElementById('splash');
+    if (!splash) return;
+    splash.classList.add('fade-out');
+    setTimeout(() => splash.remove(), 400);
   }
 
   // ── SCAN ANIMATION ──
@@ -2020,19 +1813,10 @@
     }
   }
 
-  // Init: skip or show onboarding
-  (function initOnboarding() {
-    const saved = localStorage.getItem('pw_user');
-    if (saved) {
-      try {
-        const data = JSON.parse(saved);
-        applyUserData(data);
-        document.getElementById('onboarding').remove();
-      } catch(e) {
-        localStorage.removeItem('pw_user');
-      }
-    }
-    // else: onboarding stays visible
+  // Init: always show splash
+  (function initSplash() {
+    splashReady = false;
+    setTimeout(() => { splashReady = true; }, 800);
   })();
 </script>
 </body>
