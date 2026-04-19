@@ -1,91 +1,68 @@
-# Prepwise — Project Context for Claude Code
+# Prepwise — Claude Code Context
 
-## What is Prepwise?
-A mobile-first meal prep app (iOS/Android vision) that combines:
-- **Finanzguru** (expense tracking) + **Yazio** (nutrition tracking)
-- Users scan grocery receipts → prices get matched to recipes automatically
-- AI chatbot answers "What should I eat today?" based on budget + nutrition goals
+> Full project knowledge (roadmap, business model, competitive analysis, parked ideas) → GitHub Wiki
+
+## USP
+"Prepwise is the only app that tells you what a meal really costs — and whether you can afford it today."
+Tagline: *Eat smart. Spend less.*
+
+## Status
+- Red Bull Basement Austria 2026 — Top 30 Finalist
+- Video Pitch Deadline: **Di. 21.04.2026, 12:00**
+- National Final: **29.04.2026, Graz**
+- Live Mockup: https://pink-leo-uni.github.io/prepwise
+- Repo: https://github.com/Pink-Leo-uni/prepwise
+
+## What Prepwise Is
+Mobile-first meal prep app combining Finanzguru (budget) + Yazio (nutrition).
+Core loop: scan grocery receipt → prices matched to recipes → AI chat answers "What should I eat?" based on budget + calories + fridge contents.
 
 ## Tech Stack
-- Single HTML file: `index.html` (no framework, vanilla JS)
-- Hosted on GitHub Pages: https://pink-leo-uni.github.io/prepwise
-- Repository: https://github.com/Pink-Leo-uni/prepwise
+- Single `index.html` — vanilla JS, no framework
+- Hosted on GitHub Pages (public repo required for free Pages)
+- Font: DM Sans (Google Fonts)
 
 ## Design System
-- Primary color: #2ECC8A (green)
-- Secondary: #FFD93D (yellow), #FF6B6B (red/orange), #4ECDC4 (teal)
-- Background: #F2F1EE
-- Font: DM Sans (Google Fonts)
-- Style: Clean, energetic, mobile-first
+| Token | Value |
+|---|---|
+| Primary green | `#2ECC8A` |
+| Yellow | `#FFD93D` |
+| Red | `#FF6B6B` |
+| Teal | `#4ECDC4` |
+| Background | `#F2F1EE` |
+| Text | `#111111` |
 
 ## Logo
-Green apple with white bar chart bars inside + wordmark:
-- "Prep" bold (#111111) + "wise" light (#2ECC8A)
-- SVG path for apple body:
-  M36 20 C24 20 14 29 14 41 C14 55 23 64 36 64 C41 64 44 61 49 61 C54 61 57 64 62 64 C75 64 84 55 84 41 C84 29 74 20 62 20 C57 20 54 23 49 23 C44 23 41 20 36 20Z
+Green apple with white bar chart inside. Wordmark: **Prep** (bold, #111) + wise (regular, #2ECC8A).
 
-## App Screens (5 tabs)
-1. **Home** — Calories + weekly budget overview, macros (protein/carbs/fat), today's meals
-2. **Recipes** — Recipe list with real local prices from receipts, ingredients breakdown
-3. **Week Plan** — 7-day meal schedule with budget tracker
-4. **Scan Receipt** — Camera scan of grocery receipts, auto price matching
-5. **AI Chat** — "What should I eat?" chatbot with quick replies
+## App — 5 Screens
+| Tab | Content |
+|---|---|
+| Home | Calories + weekly budget bars, macros, today's meals |
+| Recipes | Recipes with price per serving + ingredient price breakdown |
+| Week Plan | 7-day plan with running budget total |
+| Scan | Receipt scanner → auto price matching |
+| AI Chat | "What should I eat?" with budget + calorie context |
 
 ## Add Recipe Flow
-1. "+ Add recipe" button → modal opens
-2. Choice: **Auto Import** or **Manual**
-3. Auto Import → source selection (Website/YouTube/TikTok/Instagram)
-4. Clicking a source → iPhone keyboard animates up → link types itself over 4 seconds
-5. Import button turns green → loading animation → Manual Edit screen pre-filled
-6. Manual: empty form (name, servings, nutrition, ingredients + prices)
+Auto Import → source picker (Website / YouTube / TikTok / Instagram) → keyboard animates up → URL types over 4s → Import turns green → loading steps → form pre-filled.
+Manual → empty form (name, servings, nutrition, ingredients + prices).
 
-## Target Users
-Students, young professionals, fitness-conscious people with limited budget
+## Pitch Video — Supermarkt Script (final)
+Setting: Supermarkt. Person A verwirrt vor dem Regal → Person B zeigt Prepwise → alter zerknitterter Kassenbon aus Hosentasche → scannt ihn → KI-Chat: "Chicken/rice/broccoli noch da, max €3 mehr, was kochen?" → KI antwortet Chicken Rice Bowl €2.80 + nur Olivenöl & Zitrone kaufen → verlässt Supermarkt mit Mini-Tüte. Closing: "Eat smart. Spend less. Prepwise."
+Format: 16:9 horizontal · Englisch · max. 60 Sek.
 
-## Current Status
-- Working interactive mockup (not a real app yet)
-- No backend, no database — pure frontend demo
-- GitHub Pages live
+## Goals Before Graz (29.04.)
+- [ ] Video Pitch fertig + uploaded (bis 21.04. 12:00)
+- [ ] Onboarding Screen (Name, Kalorienziel, Wochenbudget)
+- [ ] Kassenbon-Scan Animation (grüne Scan-Linie, Preis-Tags)
+- [ ] "Saved this week" Badge auf Home Screen
+- [ ] Logo Splash Screen für Video-Closing
 
-## Competition Context
-Red Bull Basement 2026 Austria — Top 30 finalist
-Video pitch deadline: Tuesday 21.04.2026 12:00
-National Final: 29.04.2026 in Graz
-
-## How to Work on This Project
-- Always edit index.html directly
-- After changes: git add . && git commit -m "description" && git push
-- Test locally by opening index.html in browser
-- The app must work on mobile (iPhone Safari)
-
-## Key Rules
-- Keep everything in ONE index.html file
-- No external dependencies except Google Fonts + DM Sans
-- All screens navigate via bottom nav tabs
+## Key Rules for Claude Code
+- Always edit `index.html` directly
+- After every change: `git add . && git commit -m "…" && git push`
+- Mobile-first — must work on iPhone Safari
+- One file, no external dependencies except Google Fonts
 - Modals slide up from bottom (sheet style)
-- Colors must stay consistent with design system above
-
-## Core Value Proposition
-"Prepwise is the only app that tells you what a meal really costs — and whether you can afford it today."
-- Not just recipes, not just nutrition, not just budget — the intersection of all three
-- Priority order: Cost per meal + nutrition + budget overview → receipt scanner → AI chat → everything else
-
-## Product Roadmap
-
-### Phase 1 — MVP (now)
-Cost per meal + nutrition values + weekly budget overview. One app, one clear benefit.
-
-### Phase 2 — Receipt & Prices (Month 2-3)
-- Receipt scanner for personal prices
-- Prices from major supermarket chains integrated (Rewe, Lidl, Aldi, etc.)
-
-### Phase 3 — B2B Monetization (Month 4-6) [PARKED — do not build yet]
-> ⚠️ Intentionally parked. Do not implement until Phase 2 is complete.
-- Supermarket chains promote products inside the app
-- Users scan receipt as proof of purchase → cashback credited
-- Prepwise earns commission per verified purchase
-- Business model: B2B with supermarket chains, not B2C with users
-
-### Phase 4 — Data & Insights (long-term) [PARKED]
-> ⚠️ Parked. Long-term vision only.
-- Anonymized purchase data as second revenue stream for supermarket chains
+- Colors stay consistent with design system above
